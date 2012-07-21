@@ -1,0 +1,6 @@
+BPH API Store site.
+
+Since our forums don't have the capacity to use api authentication this Allows people to register the api of all their Eve accounts against
+a single forum user so we can track who should have forum access as people come and go from corp.
+
+Also adds people to our google sites wiki automagically.
