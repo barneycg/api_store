@@ -26,7 +26,7 @@ elseif($mode=="update")
     $id=$_POST["id"]; 
     $sql="update api_keys set key_uid='$key_uid',api_key='$api_key',valid='updated' where id='$id'"; 
     //echo $sql; 
-    $result=mysql_query($sql,$con) or die(mysql_error()); 
+    $result=$database->query($sql);//mysql_query($sql,$con) or die(mysql_error()); 
 	apicheck($users_id,$key_uid,$api_key);
     //mysql_close($con);
     header("location: apilist.php");

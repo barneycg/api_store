@@ -57,7 +57,7 @@ echo "<b>Forum Name:</b> ".$req_user_info['forum_name']."<br>";
 echo "<hr><u><h3>Toons</h3></u>";
 $users_id=$req_user_info['id'];
 $sql="SELECT t.toon_name,t.corp,t.key_uid,t.toon_id,a.api_key FROM toons as t,api_keys as a WHERE t.users_id=$users_id and a.key_uid=t.key_uid ";
-$result=mysql_query($sql,$database->connection) or die(mysql_error());
+$result=$database->query($sql);//mysql_query($sql,$database->connection) or die(mysql_error());
 ?>
 <table border="1" cellpadding="3">
 <tr><th>Toon Name</th><th>Corp</th>
