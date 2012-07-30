@@ -45,7 +45,7 @@ define("TBL_BANNED_USERS",  "banned_users");
 define("ADMIN_NAME", "admin");
 define("GUEST_NAME", "Guest");
 define("ADMIN_LEVEL", 9);
-define("ACITVE_LEVEL", 4);
+define("ACTIVE_LEVEL", 4);
 define("INACTIVE_LEVEL", 3);
 define("DUMMY_LEVEL",6);
 define("RECRUITER_LEVEL",5);
