@@ -17,8 +17,8 @@ while ($row98=mysql_fetch_array($result98)){
 	$result97 = mysql_query($sql97,$con) or die(mysql_error());	
 }
 
-$sql99 = "SELECT id,email,forum_name FROM users where toon_count>0 and wiki!=1";
-//$sql99 = "SELECT id,email,forum_name FROM users where toon_count>0";
+//$sql99 = "SELECT id,email,forum_name FROM users where toon_count>0 and wiki!=1";
+$sql99 = "SELECT id,email,forum_name FROM users where toon_count>0";
 $result99 = $database->query($sql99);//mysql_query($sql99,$con) or die(mysql_error());
 
 while ($row99=mysql_fetch_array($result99)){

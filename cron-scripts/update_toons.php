@@ -44,12 +44,19 @@ foreach (array_keys($left) as $member){
 	{
 		if (($userlvl == 4)||($userlvl==5)||($userlvl==3))
 		{
-			echo $member ."\n";
+			//echo $member ."\n";
 			$sql1 = "update users set userlevel=3 where forum_name = '$member'";
 			$result1=$database->query($sql1);//mysql_query($sql1,$con);
-			$message .= $member."\n";
+			//$message .= $member."\n";
 		}
 	}
+}
+
+$sql2 = "SELECT u.forum_name as fname FROM users as u where u.userlevel=3 AND ignore_err=0";
+$result2=$database->query($sql2);//mysql_query($sql,$con);
+while ($row2=mysql_fetch_array($result2))
+{
+	$message .= $row2['fname']."\n";
 }
 //var_dump($left);
 

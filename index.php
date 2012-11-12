@@ -68,6 +68,7 @@ if($form->num_errors > 0){
 <tr><td colspan="2" align="left"><br><font size="2">[<a href="forgotpass.php">Forgot Password?</a>]</font></td><td align="right"></td></tr>
 <tr><td colspan="2" align="left"><br>Not registered? <a href="register.php">Sign-Up!</a></td></tr>
 <tr><td colspan="2" align="left"><br><a href="orderpizza.html">Order Pizza for the Directors</a></td></tr>
+<tr><span id="wtb-ew-v1" style="width: 369px; display:inline-block"><script src="https://www.blueprinthaus.org/account/clock_widget.js?h=0&cn=Eve+Time&bc=8BA1BB&wt=c2"></script><i><a target="_blank" href="http://www.worldtimebuddy.com/">Convert time zones</a> with worldtimebuddy.com</i><noscript><a href="http://www.worldtimebuddy.com/">Convert time zones</a> with worldtimebuddy.com</noscript><script>window[wtb_event_widgets.pop()].init()</script></span></tr>
 </table>
 </form>
 

@@ -57,10 +57,21 @@ echo "<b>Forum Name:</b> ".$req_user_info['forum_name']."<br>";
 
 echo "<hr><u><h3>BPH Characters</h3></u>";
 $users_id=$req_user_info['id'];
-$sql="SELECT toon_name FROM toons WHERE users_id=$users_id and corp = 'Blueprint Haus'";
+$sql="SELECT t.toon_name,t.corp,t.key_uid,t.toon_id,a.api_key FROM toons as t,api_keys as a WHERE t.users_id=$users_id and a.key_uid=t.key_uid and t.corp ='Blueprint Haus'";
+//$sql="SELECT toon_name FROM toons WHERE users_id=$users_id and corp = 'Blueprint Haus'";
 $result=$database->query($sql);//mysql_query($sql,$con) or die(mysql_error());
 while ($row=mysql_fetch_array($result)){
-echo $row['toon_name']. "<br>";
+//echo $row['toon_name']. "<br>";
+
+$tname = $row['toon_name'];
+$tname=$row['toon_name'];
+//$corp=$row['corp'];
+$charid=$row['toon_id'];
+$vcode=$row['api_key'];
+$keyid=$row['key_uid'];
+
+echo "<a target=_blank href='https://www.blueprinthaus.org/jackknife/index.php?usid=".$keyid."&apik=".$vcode."&chid=". $charid . "'>$tname</a><br>";
+
 }
 
 /* If logged in user viewing own account, give link to edit */

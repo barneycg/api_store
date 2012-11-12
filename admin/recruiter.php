@@ -49,7 +49,7 @@ function displayUsers(){
    }
    
    echo "<table align=\"left\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\">\n";
-   echo "<tr><td><b>Total number of members</b></td><td><b>Total BPH Toons</b></td><td><b>Total non-BPH Toons</b></td><td><b>Total Toons</b></td></tr>\n";
+   echo "<tr><td><b>Total number of members</b></td><td><b><a href=\"bph_toons.php\">Total BPH Toons</a></b></td><td><b>Total non-BPH Toons</b></td><td><b><a href=\"all_toons.php\">Total Toons</a></b></td></tr>\n";
    echo "<tr><td>$total_users</td><td>$total_bph</td><td>$total_non_bph</td><td>$total_toons</td></tr></table>";
    
    echo "<table align=\"left\" border=\"0\" cellspacing=\"5\" cellpadding=\"5\">\n<tr><td><br></td></tr><tr><td><br></td></tr></table>";
