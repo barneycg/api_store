@@ -159,6 +159,10 @@ class MySQLDB
     */
    function updateUserField($username, $field, $value){
       $q = "UPDATE ".TBL_USERS." SET ".$field." = '$value' WHERE username = '$username'";
+	  if ($field = "email")
+	  {
+		exec("/home/sites/www.blueprinthaus.org/account/add-wiki.pl $value");
+	  }
       return mysql_query($q, $this->connection);
    }
    

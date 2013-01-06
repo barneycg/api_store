@@ -17,7 +17,7 @@ include("include/session.php");
 <html>
 <title>Blueprint Haus Account Management</title>
 <body>
-
+<!-- <a href="javascript:(function(){var%20aff%20=%20'getoffmylawal-21';%20if%20(!document.getElementById('ASIN'))%20{alert('Can\'t%20find%20the%20product%20ID');%20return;}%20location%20=%20'http://www.amazon.co.uk/dp/'%20+%20document.getElementById('ASIN').value%20+%20'/?tag='%20+%20aff;})()" onclick="return false;" >TEST</a> -->
 <table>
 <tr><td>
 
@@ -33,12 +33,15 @@ if($session->logged_in){
        ."[<a href=\"userinfo.php?user=$session->username\">My Account</a>] &nbsp;&nbsp;"
        ."[<a href=\"useredit.php\">Edit Account</a>] &nbsp;&nbsp;"
        ."[<a href=\"apilist.php\">Api's</a>] &nbsp;&nbsp;";
+       
+   if($session->isBPH()){	
+	   echo "[<a href=\"bph_toons.php\">BPH Toon's</a>] &nbsp;&nbsp;";
+   }
    if($session->isAdmin()){
       echo "[<a href=\"admin/admin.php\">Admin Center</a>] &nbsp;&nbsp;";
    }
    if($session->isRecruiter()){
       echo "[<a href=\"admin/recruiter.php\">Recruiter Center</a>] &nbsp;&nbsp;";
-      echo "[<a href=\"admin/asset_tracking.php\">Asset Tracking</a>] &nbsp;&nbsp;";
    }
    echo "[<a href=\"process.php\">Logout</a>]";
 }

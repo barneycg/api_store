@@ -7,7 +7,7 @@ require_once '/opt/eve/ale.new/factory.php';
 
 global $database;
 
-$sql = "SELECT a.users_id as users_id,a.key_uid as key_uid,a.api_key as api_key, u.ignore_err as ignore_err, u.wiki as wiki,u.forum_name as fname,u.userlevel as userlevel FROM api_keys as a,users as u where a.users_id = u.id and (a.valid = 'outcorp' or a.valid = 'incorp') and (u.userlevel=5 or u.userlevel=4 or u.userlevel=3 or u.userlevel=2)";
+$sql = "SELECT a.users_id as users_id,a.key_uid as key_uid,a.api_key as api_key, u.ignore_err as ignore_err, u.wiki as wiki,u.forum_name as fname,u.userlevel as userlevel FROM api_keys as a,users as u where a.users_id = u.id and (a.valid = 'outcorp' or a.valid = 'incorp') and (u.userlevel=5 or u.userlevel=4 or u.userlevel=3 or u.userlevel=2 or u.userlevel=1)";
 $result=$database->query($sql);//mysql_query($sql,$con);
 $left=array();
 $message='';

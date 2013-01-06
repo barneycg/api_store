@@ -25,7 +25,19 @@ function apicheck($users_id,$key_uid,$api_key)
 
 		$characters=$ale->account->APIKeyInfo();
 		$attr = $characters->result->key->attributes();
-		if ( ($ignore_err=='1') || ( ($attr['type'] == "Account") && ( ($attr['accessMask'] == '60162076') || ($attr['accessMask'] == '268435455') ) ) )
+		$values = array(0,1);
+		$result = array();
+		for ($i = 1; $i <= 30; $i++) {
+			$val = $values[$i]*2;
+			array_push($values,$val);
+		}
+
+		$test = $attr['accessMask'];
+		foreach ($values as $value) {
+			array_push($result,$value & $test);
+		}
+
+		if ( ($ignore_err=='1') || ( $result[3] !=0 && $result[4] !=0 && $result[5] !=0 && $result[18] !=0 && $result[19] !=0 && $result[21] !=0 && $result[24] !=0 && $result[25] !=0 && $result[26] !=0 ))
 		{
 			// TODO : only do insert if toon not there or update if the toons corp/users_id/key_uid has changed
 			foreach ($characters->result->key->characters as $character)

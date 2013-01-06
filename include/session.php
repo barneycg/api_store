@@ -345,7 +345,7 @@ class Session
     * automatically.
     */
    function editAccount($subcurpass, $subnewpass, $subemail,$subforum_name){
-      global $database, $form;  //The database and form object
+      global $database, $form, $session;  //The database and form object
       /* New password entered */
       if($subnewpass){
          /* Current Password error checking */
@@ -410,6 +410,8 @@ class Session
       
       /* Change Email */
       if($subemail){
+		 $oldemail = $session->userinfo['email'];
+		 exec("/home/sites/www.blueprinthaus.org/account/del-wiki.pl $oldemail");
          $database->updateUserField($this->username,"email",$subemail);
       }
       
@@ -437,6 +439,15 @@ class Session
     */
    function isRecruiter(){
       return ($this->userlevel == RECRUITER_LEVEL ||
+              $this->userlevel  == ADMIN_LEVEL);
+   }
+   
+   /**
+    * isBPH - Returns true if currently logged in user is
+    * a member of BPH, false otherwise.
+    */
+   function isBPH(){
+      return ($this->userlevel == ACTIVE_LEVEL ||
               $this->userlevel  == ADMIN_LEVEL);
    }
    
