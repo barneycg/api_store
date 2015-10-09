@@ -447,7 +447,8 @@ class Session
     * a member of BPH, false otherwise.
     */
    function isBPH(){
-      return ($this->userlevel == ACTIVE_LEVEL ||
+      return ($this->userlevel == ACTIVE_LEVEL || 
+			  $this->userlevel == RECRUITER_LEVEL ||
               $this->userlevel  == ADMIN_LEVEL);
    }
    

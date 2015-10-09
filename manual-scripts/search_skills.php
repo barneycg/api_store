@@ -3,7 +3,7 @@
 include("/home/sites/www.blueprinthaus.org/account/apicheck.php");
 //include("/home/sites/www.blueprinthaus.org/account/conn.php");
 include("/home/sites/www.blueprinthaus.org/account/include/database.php");
-require_once '/opt/eve/ale.new/factory.php';
+require_once '/opt/eve/ale/factory.php';
 
 global $database;
 
@@ -25,7 +25,8 @@ while ($row=mysql_fetch_array($result)){
         $ale = AleFactory::getEVEOnline();
         //set user credentials, third parameter $characterID is also possible;
 
-        $ale->setCredentials($key_uid, $api_key, $toon_id);
+        $ale->setKey($key_uid, $api_key, $toon_id);
+		//var_dump($ale);
 		$skillsheet=$ale->char->CharacterSheet();
 
 		foreach ($skillsheet->result->skills as $skill)
@@ -40,7 +41,7 @@ while ($row=mysql_fetch_array($result)){
 			}
 			if (($level >= $slevel) && ($typeName === $sskill))
 			{
-				echo $fname . "\n";
+				echo $tname . "\n";
 			}
 		}
 	}

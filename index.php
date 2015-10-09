@@ -42,6 +42,7 @@ if($session->logged_in){
    }
    if($session->isRecruiter()){
       echo "[<a href=\"admin/recruiter.php\">Recruiter Center</a>] &nbsp;&nbsp;";
+	  echo "[<a href=\"admin/skill_form.php\">Skills query</a>] &nbsp;&nbsp;";
    }
    echo "[<a href=\"process.php\">Logout</a>]";
 }

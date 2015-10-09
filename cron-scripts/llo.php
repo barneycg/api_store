@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-require_once '/opt/eve/ale.new/factory.php';
+require_once '/opt/eve/ale/factory.php';
 include("/home/sites/www.blueprinthaus.org/account/include/database.php");
 global $database;
 
@@ -18,11 +18,12 @@ function get_api_chars() {
 		$extended = 1;
 
 
-        $ale->setCredentials($key_uid, $api_key, $characterID, $extended);
+        $ale->setKey($key_uid, $api_key, $characterID);
+		$params['extended']=1;
 
 		//all errors are handled by exceptions
 
-		$member_trac = $ale->corp->MemberTracking();
+		$member_trac = $ale->corp->MemberTracking($params);
 		//var_dump($member_trac);
 
 		//Get LLO dates
@@ -55,8 +56,6 @@ $alts = $a;
 
 //uksort($alts,'strnatcasecmp');
 $keys = array_keys($alts);
-
-//$igp = file('/opt/eve/30plus/ignore-prototype.conf');
 
 $message="";
 

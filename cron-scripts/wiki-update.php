@@ -3,7 +3,7 @@
 
 include("/home/sites/www.blueprinthaus.org/account/include/database.php");
 global $database;
-$sql98 = "SELECT id,email,forum_name FROM users where toon_count=0 and wiki=1";
+$sql98 = "SELECT id,email,forum_name FROM users where toon_count=0 and wiki=1 and ignore_err=0";
 $result98 = $database->query($sql98);//mysql_query($sql98,$con) or die(mysql_error());
 
 while ($row98=mysql_fetch_array($result98)){

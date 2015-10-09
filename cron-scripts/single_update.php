@@ -7,7 +7,9 @@ require_once '/opt/eve/ale/factory.php';
 
 global $database;
 
-$sql = "SELECT a.users_id as users_id,a.key_uid as key_uid,a.api_key as api_key, u.ignore_err as ignore_err, u.wiki as wiki,u.forum_name as fname,u.userlevel as userlevel FROM api_keys as a,users as u where a.users_id = u.id and (a.valid = 'outcorp' or a.valid = 'incorp' or a.valid='updated' or a.valid='new') and (u.userlevel=9 or u.userlevel=5 or u.userlevel=4 or u.userlevel=3 or u.userlevel=2 or u.userlevel=1)";
+$uid = $argv[1];
+
+$sql = "SELECT a.users_id as users_id,a.key_uid as key_uid,a.api_key as api_key, u.ignore_err as ignore_err, u.wiki as wiki,u.forum_name as fname,u.userlevel as userlevel FROM api_keys as a,users as u where a.users_id = u.id and u.id = $uid";
 $result=$database->query($sql);//mysql_query($sql,$con);
 $left=array();
 $message='';
@@ -18,14 +20,10 @@ while ($row=mysql_fetch_array($result)){
 	$fname=$row['fname'];
 	$ignore_err=$row['ignore_err'];
 	$userlvl=$row['userlevel'];
+	echo $key_uid."\n";
 	$checked = apicheck($users_id,$key_uid,$api_key);
 	if ($checked==0)
 	{
-		if ($ignore_err)
-		{
-			echo "Special Person with errored key : $fname\n";
-			continue;
-		}
 		if (!array_key_exists($fname, $left)) {
 			$left[$fname]=array();
 			$left[$fname]['userlvl']=$userlvl;

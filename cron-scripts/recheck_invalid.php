@@ -3,7 +3,7 @@
 include("/home/sites/www.blueprinthaus.org/account/apicheck.php");
 //include("/home/sites/www.blueprinthaus.org/account/conn.php");
 include("/home/sites/www.blueprinthaus.org/account/include/database.php");
-require_once '/opt/eve/ale.new/factory.php';
+require_once '/opt/eve/ale/factory.php';
 
 global $database;
 
@@ -14,7 +14,7 @@ while ($row=mysql_fetch_array($result)){
 	$users_id=$row['users_id'];
 	$key_uid=$row['key_uid'];
 	$api_key=$row['api_key'];
-	apicheck($users_id,$key_uid,$api_key);
+	$tmp = apicheck($users_id,$key_uid,$api_key);
 }
 
 //mysql_close($con);

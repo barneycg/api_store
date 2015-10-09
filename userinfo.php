@@ -60,6 +60,7 @@ $users_id=$req_user_info['id'];
 $sql="SELECT t.toon_name,t.corp,t.key_uid,t.toon_id,a.api_key FROM toons as t,api_keys as a WHERE t.users_id=$users_id and a.key_uid=t.key_uid and t.corp ='Blueprint Haus'";
 //$sql="SELECT toon_name FROM toons WHERE users_id=$users_id and corp = 'Blueprint Haus'";
 $result=$database->query($sql);//mysql_query($sql,$con) or die(mysql_error());
+echo "<table border=1>";
 while ($row=mysql_fetch_array($result)){
 //echo $row['toon_name']. "<br>";
 
@@ -70,10 +71,10 @@ $charid=$row['toon_id'];
 $vcode=$row['api_key'];
 $keyid=$row['key_uid'];
 
-echo "<a target=_blank href='https://www.blueprinthaus.org/jackknife/index.php?usid=".$keyid."&apik=".$vcode."&chid=". $charid . "'>$tname</a><br>";
+echo "<tr><td><a target=_blank href='http://skills.bladesofgrass.space/index.php?usid=".$keyid."&apik=".$vcode."&chid=". $charid . "'>$tname</a></td><td><a target=_blank href='https://www.blueprinthaus.org/account/skillpack.php?toon=".rawurlencode($tname)."&file=sl_cfc_full.txt'>CFC Full Skillpack</a></td><td><a target=_blank href='https://www.blueprinthaus.org/account/skillpack.php?toon=".rawurlencode($tname)."&file=sl_cfc_quick.txt'>CFC Quick Skillpack</a></td><td><a target=_blank href='https://www.blueprinthaus.org/account/skillpack.php?toon=".rawurlencode($tname)."&file=sl_cfc_quick_damp.txt'>CFC Quick and Damps Skillpack</a></td></tr>";
 
 }
-
+echo "</table>";
 /* If logged in user viewing own account, give link to edit */
    echo "<hr><a href=\"useredit.php\">Edit Account Information</a><br>";
 

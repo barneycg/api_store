@@ -33,7 +33,7 @@ function displayUsers(){
         }
 		$tinfo=array("$tname","$cname");
 
-        array_push($mlist[$fname],$tinfo);
+        array_push($mlist[$fname],$tname);
 	}
 	//var_dump($mlist);
 	foreach (array_keys($mlist) as $maxtoons) {
@@ -51,7 +51,7 @@ function displayUsers(){
 		//$line = $member." : ";
 		natcasesort($mlist[$member]);
 		foreach ($mlist[$member] as $toon) {
-			$message .= "<td header=\"tname\">$toon[0]</td>";
+			$message .= "<td header=\"tname\">$toon</td>";
 		}
 		$message .= "</tr>\n";
 	}

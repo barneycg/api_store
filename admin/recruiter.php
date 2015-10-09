@@ -118,7 +118,9 @@ else{
  * forms.
  */
 ?>
-<html>
+<html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
+<meta http-equiv="Content-Language" content="en" />
+<meta name="google" content="notranslate">
 <title>BPH Recruiter Center</title>
 <body>
 <h1>Recruiter Center</h1>

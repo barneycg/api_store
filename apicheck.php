@@ -5,12 +5,14 @@ function apicheck($users_id,$key_uid,$api_key)
 {
 	global $database;
 	$incorp = 0;
-
+	$director = 0;
+	$dalt = 0;
+	$secure = 0;
 	try {
 		$ale = AleFactory::getEVEOnline();
 		//set user credentials, third parameter $characterID is also possible;
 				
-		$ale->setCredentials($key_uid, $api_key);
+		$ale->setKey($key_uid, $api_key);
 		//all errors are handled by exceptions
 
 		//  Get ignore err value 
@@ -21,7 +23,6 @@ function apicheck($users_id,$key_uid,$api_key)
 		$userlvl = $row1['userlevel'];
 		$email= $row1['email'];
 		$fname= $row1['forum_name'];
-		
 
 		$characters=$ale->account->APIKeyInfo();
 		$attr = $characters->result->key->attributes();
@@ -39,18 +40,66 @@ function apicheck($users_id,$key_uid,$api_key)
 
 		if ( ($ignore_err=='1') || ( $result[3] !=0 && $result[4] !=0 && $result[5] !=0 && $result[18] !=0 && $result[19] !=0 && $result[21] !=0 && $result[24] !=0 && $result[25] !=0 && $result[26] !=0 ))
 		{
+			$sql15 = "DELETE FROM toons WHERE key_uid= $key_uid";
+            $result15=$database->query($sql15);//mysql_query($sql15,$con) or die(mysql_error());
 			// TODO : only do insert if toon not there or update if the toons corp/users_id/key_uid has changed
 			foreach ($characters->result->key->characters as $character)
 			{
+
+				//var_dump($character);
+				$sql_sp_d = "DELETE FROM character_skills WHERE charid = ". mysql_real_escape_string($character->characterID);
+                $r_sp_d =$database->query($sql_sp_d); 
+				
 				if ($character->corporationName == "Blueprint Haus")
 				{
-					$sql2 = "REPLACE INTO toons(id,users_id,api_id,key_uid,toon_id,toon_name,corp) VALUES(NULL,'$users_id',0,'$key_uid','$character->characterID',\"$character->characterName\",\"$character->corporationName\")";
+					$ale->setKey($key_uid, $api_key,$character->characterID);
+					$skills = $ale->char->CharacterSheet();
+					
+					$sp=0;
+					foreach ($skills->result->skills as $skill)
+					{
+						$s = (string)$skill->typeID;
+                        $l = (string)$skill->level;
+                        $sp += (int)$skill->skillpoints;
+
+						$sql_s_i = "REPLACE INTO character_skills (userid,charid,skill_id,level) VALUES ('".mysql_real_escape_string($key_uid). "', '" . mysql_real_escape_string($character->characterID). "', '" . mysql_real_escape_string($s). "', '" . mysql_real_escape_string($l). "')";
+						$r_s_i =$database->query($sql_s_i);
+					}
+					$sql_sp_i = "REPLACE INTO character_skills (userid,charid,skill_id,level) VALUES ('".mysql_real_escape_string($key_uid). "', '" . mysql_real_escape_string($character->characterID). "', '0', '" . mysql_real_escape_string($sp). "')";
+				
+					$r_sp_i =$database->query($sql_sp_i);
+					$sql2 = "REPLACE INTO toons(users_id,api_id,key_uid,toon_id,toon_name,corp) VALUES('$users_id',0,'$key_uid','$character->characterID',\"$character->characterName\",\"$character->corporationName\")";
 					$result2=$database->query($sql2);//mysql_query($sql2,$con) or die(mysql_error());
 					$incorp = 1;
+					foreach ($skills->result->corporationRoles as $corp_roles)
+					{
+						$role = $corp_roles->attributes();
+						if ($role['roleName'] == "roleDirector")
+							$director = 1;
+					}
+					foreach ($skills->result->corporationTitles as $corp_titles)
+					{
+						$title = $corp_titles->attributes();
+						switch ($title['titleName'])
+						{
+							case "555" :
+								$dalt = 1;
+								break;
+							case "Secure" :
+								$secure = 1;
+								break;
+							default :
+								break;
+						}
+					}
+		
+					$sql27 = "update toons set director=$director,dalt=$dalt,secure=$secure where toon_id = $character->characterID";
+					$result27=$database->query($sql27);
+					
 				}
 				else
 				{
-					$sql6 = "REPLACE INTO toons(id,users_id,api_id,key_uid,toon_id,toon_name,corp) VALUES(NULL,'$users_id',0,'$key_uid','$character->characterID',\"$character->characterName\",\"$character->corporationName\")";
+					$sql6 = "REPLACE INTO toons(users_id,api_id,key_uid,toon_id,toon_name,corp) VALUES('$users_id',0,'$key_uid','$character->characterID',\"$character->characterName\",\"$character->corporationName\")";
 					//$sql6 = "DELETE FROM toons WHERE toon_id = $character->characterID";
 					$result6=$database->query($sql6);//mysql_query($sql6,$con) or die(mysql_error());
 				}
@@ -63,7 +112,13 @@ function apicheck($users_id,$key_uid,$api_key)
 
 			if ($incorp == 1)
 			{
-				$sql9 = "UPDATE api_keys SET valid='incorp' where key_uid=$key_uid";
+				if ($attr['accessMask'] == 268435455)
+					$full = 1;
+				else
+					$full = 0;
+				$sql9 = "UPDATE api_keys SET valid='incorp',full_api=$full where key_uid=$key_uid";
+
+//				$sql9 = "UPDATE api_keys SET valid='incorp' where key_uid=$key_uid";
 				$result9=$database->query($sql9);//mysql_query($sql9,$con) or die(mysql_error());
 				$sql13= "SELECT count(*) as count from toons,users WHERE toons.users_id=users.id and users.id=$users_id and toons.corp = 'Blueprint Haus'";
 				$result13=$database->query($sql13);//mysql_query($sql13,$con) or die(mysql_error());
@@ -85,7 +140,7 @@ function apicheck($users_id,$key_uid,$api_key)
 					$subject = '[BPH] Add forum access';
 					$body = $message;
 					$headers = 'From: Shin@telinformix.com';
-					mail($to, $subject, $body,$headers);
+					//mail($to, $subject, $body,$headers);
 				}
 				return 1;
 			}
@@ -145,7 +200,7 @@ function apicheck($users_id,$key_uid,$api_key)
                 //$body = $message;
                 //$headers = 'From: Shin@telinformix.com';
                 //mail($to, $subject, $body,$headers);
-                if (($userlvl == 4)||($userlvl==5))
+                if ($ignore_err !=1 && (($userlvl == 4)||($userlvl==5)))
                 {
                 	$sql15 = "UPDATE users SET userlevel=3 where id=$users_id";
             		$result15 = $database->query($sql15);//mysql_query($sql15,$con) or die(mysql_error());
@@ -174,6 +229,10 @@ function apicheck($users_id,$key_uid,$api_key)
 		else
 		{
 			echo $key_uid." : " . $api_key . " : " . $e->getMessage() . "\n";
+			$sql4 = "UPDATE api_keys SET valid='invalid' where key_uid=$key_uid";
+			$result4=$database->query($sql4);//mysql_query($sql4,$con) or die(mysql_error());
+			$sql5 = "DELETE FROM toons WHERE key_uid=$key_uid";
+			$result5=$database->query($sql5);//mysql_query($sql5,$con) or die(mysql_error());
 		}
 		$sql16= "SELECT count(*) as count from toons,users WHERE toons.users_id=users.id and users.id=$users_id and toons.corp = 'Blueprint Haus'";
         $result16=$database->query($sql16);//mysql_query($sql16,$con) or die(mysql_error());

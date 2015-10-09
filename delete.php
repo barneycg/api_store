@@ -33,11 +33,11 @@ for($i=0;$i<$size;$i++) {
 		$subject = '[BPH] No Active Toons';
 		$body = $message;
 		$headers = 'From: Shin@telinformix.com';
-		mail($to, $subject, $body,$headers);
+		//mail($to, $subject, $body,$headers);
 	}
 	
 } 
-mysql_close($con);
+//mysql_close($con);
 header("location: apilist.php"); 
 ?>
 

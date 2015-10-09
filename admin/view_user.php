@@ -56,11 +56,11 @@ echo "<b>Forum Name:</b> ".$req_user_info['forum_name']."<br>";
 
 echo "<hr><u><h3>Toons</h3></u>";
 $users_id=$req_user_info['id'];
-$sql="SELECT t.toon_name,t.corp,t.key_uid,t.toon_id,a.api_key FROM toons as t,api_keys as a WHERE t.users_id=$users_id and a.key_uid=t.key_uid ";
+$sql="SELECT t.toon_name,t.corp,t.key_uid,t.toon_id,a.api_key FROM toons as t,api_keys as a WHERE t.users_id=$users_id and a.key_uid=t.key_uid ORDER BY t.key_uid ";
 $result=$database->query($sql);//mysql_query($sql,$database->connection) or die(mysql_error());
 ?>
 <table border="1" cellpadding="3">
-<tr><th>Toon Name</th><th>Corp</th>
+<tr><th>Toon Name</th><th>Corp</th><th></th><th>Key ID</th>
 <?
 while ($row=mysql_fetch_array($result)){
 	$tname=$row['toon_name'];
@@ -69,7 +69,7 @@ while ($row=mysql_fetch_array($result)){
 	$vcode=$row['api_key'];
 	$keyid=$row['key_uid'];
 	
-	echo "<tr><td><a target=_blank href='https://gate.eveonline.com/Profile/$tname'>$tname</a></td><td>$corp</td><td><a target=_blank href='https://www.blueprinthaus.org/jackknife/index.php?usid=".$keyid."&apik=".$vcode."&chid=". $charid . "'>skills</a></td></tr>";
+	echo "<tr><td><a target=_blank href='https://gate.eveonline.com/Profile/$tname'>$tname</a></td><td>$corp</td><td><a target=_blank href='https://www.blueprinthaus.org/jackknife/index.php?usid=".$keyid."&apik=".$vcode."&chid=". $charid . "'>skills</a></td><td>$keyid</td></tr>";
 }
 ?>
 </table>

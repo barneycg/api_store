@@ -31,7 +31,7 @@
 			}
           if($mode=="Add") { 
           ?> 
-		  <p style="color:red"><b>You can get your api <a target=_blank href="https://support.eveonline.com/api/Key/CreatePredefined/60162076">here</a> (opens in a new tab and may I suggest ticking the "No Expiry" option)</b></p>
+		  <p style="color:red"><b>You can get your api <a target=_blank href="https://community.eveonline.com/support/api-key/CreatePredefined?accessMask=60162076">here</a> (opens in a new tab and may I suggest ticking the "No Expiry" option)</b></p>
 		<hr>
           <form name="form1" method="post" action="apiformsubmit.php?mode=add"> 
             <table width="500" border="1" align="center" cellpadding="2" cellspacing="2"> 
@@ -58,12 +58,12 @@
           <?        
           } else  { 
               //include("conn.php"); 
-            $id=$_GET["id"]; 
-            $sql="select id,users_id,key_uid,api_key from api_keys where id='$id'"; 
+            $id=$_GET["key_uid"]; 
+            $sql="select users_id,key_uid,api_key from api_keys where key_uid='$id'"; 
             $result=$database->query($sql);
             //$result=mysql_query($sql,$con) or die(mysql_error()); 
             while($row=mysql_fetch_array($result)) { 
-                $id=$row['id']; 
+                //$id=$row['key_uid']; 
                 $key_uid=$row['key_uid']; 
                 $api_key=$row['api_key']; 
             } 
@@ -73,12 +73,12 @@
             <table width="500" border="1" align="center" cellpadding="2" cellspacing="2"> 
               <tr> 
                 <td><strong>Update API Key </strong></td> 
-                <td><input type="hidden" name="id" value="<? echo $id; ?>"> 
-                   </td> 
+                <td><input type="hidden" name="key_uid" value="<? echo $key_uid; ?>"> 
+                   </td>
               </tr> 
               <tr> 
                 <td>ID</td> 
-                <td><input name="key_uid" type="text" id="key_uid" value="<? echo $key_uid; ?>"></td> 
+                <td><input name="keyid" type="text" id="key_uid" value="<? echo $key_uid; ?>" disabled=1></td> 
               </tr> 
               <tr> 
                 <td>Verification Code</td> 

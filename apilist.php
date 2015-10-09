@@ -64,7 +64,7 @@ Select All    </td>
 <?
 
 //include("conn.php");
-$sql = "SELECT id,users_id,key_uid,api_key,valid FROM api_keys WHERE users_id = '$session->usrid'";
+$sql = "SELECT users_id,key_uid,api_key,valid FROM api_keys WHERE users_id = '$session->usrid'";
 $result=$database->query($sql);//mysql_query($sql,$con);
 
 //$dbarray = mysql_fetch_array($result);
@@ -75,7 +75,7 @@ while($row=mysql_fetch_array($result)) {
             <td><? echo $row['key_uid']; ?></td> 
             <td><? echo $row['api_key']; ?></td>
             <td><? echo $row['valid']; ?></td>
-            <td><a href="<? echo "apiform.php?id=".$row['id']."&mode=update"; ?>">Update</a></td> 
+            <td><a href="<? echo "apiform.php?key_uid=".$row['key_uid']."&mode=update"; ?>">Update</a></td> 
           </tr> 
           <? } ?> 
 

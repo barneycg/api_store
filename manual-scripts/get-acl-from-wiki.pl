@@ -186,7 +186,9 @@ sub get_acls(){
 		
 		if ($_ ne '</feed>')
 		{
+			print $_."\n";
 			my ($mail,$role) = split(/,/,$_);
+			
 			if ($role eq "writer"){
 				$mail =~ s/@/%40/;
 				print $mail."\n";

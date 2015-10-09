@@ -19,7 +19,7 @@ include("../include/session.php");
  */
 function displayUsers(){
 	global $database;
-	$sql="select forum_name,toon_name,corp from users,toons where toons.users_id = users.id and corp='Blueprint Haus' order by forum_name";
+	$sql="select forum_name,toon_name,corp,key_uid,director,dalt,secure from users,toons where toons.users_id = users.id and corp='Blueprint Haus' order by forum_name,toon_name DESC";
 	$result=$database->query($sql);
 	$mlist = array();
 	$max_alts=0;
@@ -27,11 +27,19 @@ function displayUsers(){
 		$fname = $row['forum_name'];
         $tname = $row['toon_name'];
 		$cname = $row['corp'];
+		$key_uid = $row['key_uid'];
+		$director = $row['director'];
+		$secure = $row['secure'];
+		$dalt = $row['dalt'];
+		$sql1 = "select full_api from api_keys where key_uid = $key_uid";
+		$result1=$database->query($sql1);
+		$row1=mysql_fetch_array($result1);
+		$full = $row1['full_api'];
         if (!array_key_exists($fname, $mlist))
         {
             $mlist[$fname] = array();
         }
-		$tinfo=array("$tname","$cname");
+		$tinfo=array("$tname","$cname","$director","$dalt","$secure","$full");
 
         array_push($mlist[$fname],$tinfo);
 	}
@@ -45,13 +53,25 @@ function displayUsers(){
 
 	//$message = "<html><body><table border=1 frame=void cellpadding=10 rules=groups><COLGROUP></COLGROUP><th id=\"fname\">Forum Name</th><th colspan=$max_alts id=\"tname\">Toons</th><COLGROUP></COLGROUP>\n";
 	$message = "<html><body><table style=\"border-collapse:collapse; font-size:14px; text-align:left;\" cellpadding=5 ><COLGROUP style=\"border-color:black;border-style: none solid none none\" ></COLGROUP><colgroup span=$max_alts></colgroup><tr style=\"border-color:black;border-style: none none solid none\"><th id=\"fname\">Forum Name</th><th  colspan=$max_alts id=\"tname\">Toons</th></tr>\n";
-
-	foreach (array_keys($mlist) as $member) {
-		$message .= "<tr><td header=\"fname\">$member</td>";
+	$members = array_keys($mlist);
+	foreach ($members as $member) {
+		$message .= "<tr><td header=\"fname\" valign=\"top\">$member</td>";
 		//$line = $member." : ";
-		natcasesort($mlist[$member]);
+		//natcasesort($mlist[$member]);
 		foreach ($mlist[$member] as $toon) {
-			$message .= "<td header=\"tname\">$toon[0]</td>";
+			//$message .= "<td header=\"tname\">$toon[0]</td>";
+			if ($toon[5])
+				$full_api = "Full API";
+			else
+				$full_api = "";
+			if ($toon[2])
+				$message .= "<td header=\"tname\" valign=\"top\">$toon[0]<br><span style=\"color:red\">Director</span><br><span style=\"color:green\">$full_api</span></td>";
+			elseif ($toon[3])
+				$message .= "<td header=\"tname\" valign=\"top\">$toon[0]<br><span style=\"color:red\">Director Alt</span><br><span style=\"color:green\">$full_api</span></td>";
+			elseif ($toon[4])
+				$message .= "<td header=\"tname\" valign=\"top\">$toon[0]<br><span style=\"color:red\">Secure Access</span><br><span style=\"color:green\">$full_api</span></td>";
+			else
+				$message .= "<td header=\"tname\" valign=\"top\">$toon[0]<br><span style=\"color:green\">$full_api</span></td>";
 		}
 		$message .= "</tr>\n";
 	}

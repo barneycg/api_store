@@ -1,0 +1,17 @@
+armor honeycombing:4
+micro jump drive operation:4
+heavy assault missiles:5
+heavy assault missile specialization:4
+gravimetric sensor compensation:4
+ladar sensor compensation:4
+magnetometric sensor compensation:4
+radar sensor compensation:4
+shield emission systems:4
+remote armor repair systems:4
+frequency modulation:3
+long distance jamming:3
+sensor linking:4
+signal suppression:4
+large hybrid turret:5
+large railgun specialization:4
+large blaster specialization:4
